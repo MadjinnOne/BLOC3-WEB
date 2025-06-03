@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style_header.css">
+    <link rel="stylesheet" href="/static/css/style_footer.css">
+    <link rel="stylesheet" href="/static/css/style_main.css">
+    {% block extra_css %}{% endblock %}
+    <title>{% block title %}Association des parents{% endblock %}</title>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-content">
+        <h1>Association des parents d'élève de l'école maternelle d'Avernas-le-Baudoin</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/ecole">L'école</a></li>
+                <li><a href="/association">Association</a></li>
+                <li><a href="/forum">Forum</a></li>
+
+                {% if user_prenom %}
+                {% if is_admin %}
+                <li><a href="/admin">Admin</a></li>
+                {% endif %}
+                <li><a href="/mon-compte">Mon compte</a></li>
+                <li style="margin-left: auto;"><a href="/logout" class="logout-button">Se déconnecter</a></li>
+                {% else %}
+                <li><a href="/identification">S'identifier / S'inscrire</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    {% block content %}{% endblock %}
+</main>
+
+{% include "modules/footer.html" %}
+{% block extra_js %}{% endblock %}
+
+
+</body>
+</html>

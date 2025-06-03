@@ -1,0 +1,56 @@
+<h2>Liste des membres</h2>
+
+<table class="table-user">
+    <thead>
+    <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Fonction</th>
+        <th>Adresse</th>
+        <th>Ville</th>
+        <th>CP</th>
+        <th>Téléphone</th>
+        <th>Admin</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for u in users %}
+    <tr>
+        <form method="post" action="/admin/update_user">
+            <td><input type="text" name="first_name" value="{{ u.first_name }}" required></td>
+            <td><input type="text" name="last_name" value="{{ u.last_name }}" required></td>
+            <td><input type="email" name="email" value="{{ u.email }}" required readonly></td>
+            <td>
+                <select name="fonction" required>
+                    <option value="maman" {% if u.fonction == 'maman' %}selected{% endif %}>Maman</option>
+                    <option value="papa" {% if u.fonction == 'papa' %}selected{% endif %}>Papa</option>
+                    <option value="prof" {% if u.fonction == 'prof' %}selected{% endif %}>Professeur</option>
+                    <option value="directeur" {% if u.fonction == 'directeur' %}selected{% endif %}>Directeur</option>
+                    <option value="PO" {% if u.fonction == 'PO' %}selected{% endif %}>Membre du PO</option>
+                </select>
+            </td>
+            <td><input type="text" name="rue_et_numero" value="{{ u.rue_et_numero }}" required></td>
+            <td><input type="text" name="ville" value="{{ u.ville }}" required></td>
+            <td><input type="text" name="code_postal" value="{{ u.code_postal }}" required class="input-cp"></td>
+            <td><input type="text" name="telephone" value="{{ u.telephone }}" required class="input-tel"></td>
+            <td>
+                <select name="admin">
+                    <option value="True" {% if u.admin %}selected{% endif %}>oui</option>
+                    <option value="False" {% if not u.admin %}selected{% endif %}>non</option>
+                </select>
+            </td>
+            <td style="display: flex; gap: 5px;">
+                <input type="hidden" name="user_id" value="{{ u.id }}">
+                <button type="submit" class="btn-modifier">Modifier</button>
+        </form>
+        <form method="post" action="/admin/delete" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+            <input type="hidden" name="user_id" value="{{ u.id }}">
+            <button type="submit" class="btn-supprimer">Supprimer</button>
+        </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/style_identification.css">
+{% endblock %}
+
+{% block content %}
+<h1>Mon compte</h1>
+
+<form method="post" action="/mon-compte" class="form-container">
+    <label for="prenom">Prénom :</label>
+    <input type="text" id="prenom" name="prenom" value="{{ user.first_name }}" required>
+
+    <label for="nom">Nom :</label>
+    <input type="text" id="nom" name="nom" value="{{ user.last_name }}" required>
+
+    <label for="email">Email :</label>
+    <input type="email" id="email" name="email" value="{{ user.email }}" required readonly>
+
+    <label for="fonction">Fonction :</label>
+    <select name="fonction" id="fonction" required>
+        <option value="">-- Sélectionner --</option>
+        <option value="maman" {% if user.fonction == 'maman' %}selected{% endif %}>Maman</option>
+        <option value="papa" {% if user.fonction == 'papa' %}selected{% endif %}>Papa</option>
+        <option value="prof" {% if user.fonction == 'prof' %}selected{% endif %}>Professeur</option>
+        <option value="directeur" {% if user.fonction == 'directeur' %}selected{% endif %}>Directeur</option>
+        <option value="PO" {% if user.fonction == 'PO' %}selected{% endif %}>Membre du PO</option>
+    </select>
+
+    <label for="ville">Ville :</label>
+    <input type="text" id="ville" name="ville" value="{{ user.ville }}" required>
+
+    <label for="code_postal">Code postal :</label>
+    <input type="text" id="code_postal" name="code_postal" value="{{ user.code_postal }}" required>
+
+    <label for="rue">Rue et numéro :</label>
+    <input type="text" id="rue" name="rue_et_numero" value="{{ user.rue_et_numero }}" required>
+
+    <label for="telephone">Téléphone :</label>
+    <input type="text" id="telephone" name="telephone" value="{{ user.telephone }}" required>
+
+    <button type="submit">Sauvegarder les modifications</button>
+</form>
+{% endblock %}

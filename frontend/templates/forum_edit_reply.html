@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Éditer la réponse{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/style_forum.css">
+{% endblock %}
+
+{% block content %}
+<div class="forum-new-post-form">
+    <h1>Éditer la réponse</h1>
+    <form method="post" action="/forum/reply/{{ reply.id }}/edit" class="forum-create-post-form">
+        <div class="form-group">
+            <label for="content">Contenu de la réponse</label>
+            <textarea id="content" name="content" rows="5" required>{{ reply.content }}</textarea>
+        </div>
+        <button type="submit">Enregistrer les modifications</button>
+    </form>
+    <a href="/forum/{{ reply.post_id }}" class="forum-back-link">&larr; Retour au sujet</a>
+</div>
+{% endblock %}

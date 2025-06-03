@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+.le-projet {
+    margin-bottom: 2.3rem;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(30,40,80,0.09);
+    padding: 2.3rem 2rem 2.2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    max-width: 950px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.le-projet h1 {
+    font-size: 2em;
+    margin-top: 0;
+    margin-bottom: 1.1em;
+    color: #209193;
+    background: rgba(230, 244, 241, 0.85);
+    display: inline-block;
+    border-radius: 10px;
+    padding: 0.5em 1.5em;
+    font-family: 'Inter', Cambria, Georgia, serif;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(30,40,80,0.04);
+    border: 2px solid #1abc9c;
+    text-align: center;
+    letter-spacing: -1px;
+    line-height: 1.18;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.le-projet p {
+    font-size: 1.13em;
+    line-height: 1.7;
+    margin-bottom: 1.3em;
+    color: #2d3a53;
+    text-align: justify;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+@media (max-width: 700px) {
+    .le-projet {
+        padding: 1.2rem 0.6rem 1.4rem 0.6rem;
+        max-width: 99vw;
+    }
+    .le-projet h1 {
+        font-size: 1.3em;
+        padding: 0.4em 0.7em;
+    }
+}

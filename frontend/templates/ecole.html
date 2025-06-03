@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}L'école{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/style_ecole.css">
+{% endblock %}
+
+{% block content %}
+<div class="ecole-container">
+    <section class="ecole-intro">
+        <h1>Une école familiale au cœur du village</h1>
+        <p>
+            L'école communale d'Avernas-le-Baudouin met un point d’honneur à transmettre des valeurs essentielles :
+            la rigueur, le travail et la discipline. Ces principes guident l’ensemble des activités scolaires et éducatives,
+            afin de former des élèves responsables, organisés et respectueux des règles.
+        </p>
+    </section>
+
+    <section class="ecole-sections">
+        <h2>Notre école</h2>
+        <p>
+            Située au cœur du village d'Avernas-le-Baudouin, notre école accueille les enfants de la maternelle à la 6e primaire.
+            Elle propose un encadrement de qualité, un suivi pédagogique personnalisé et un environnement de travail stimulant.
+        </p>
+        <img src="/static/images/ecole.jpg" alt="Photo de l'école" class="image-ecole">
+    </section>
+
+    <section class="ecole-infos">
+        <h2>Infos pratiques</h2>
+        <ul>
+            <li>Garderie dès 7h30 et jusque 17h30</li>
+            <li>Repas chauds disponibles les midis</li>
+            <li>Accès aisé, parking, local vélo</li>
+        </ul>
+    </section>
+</div>
+{% endblock %}

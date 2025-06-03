@@ -1,0 +1,61 @@
+<h2>Votes en cours</h2>
+<table class="table-vote">
+    <thead>
+    <tr>
+        <th>Question</th>
+        <th>Options</th>
+        <th>Date de fin</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for v in votes_actifs %}
+    <tr>
+        <form method="post" action="/admin/update_vote">
+            <td><input type="text" name="question" value="{{ v.question }}" required></td>
+            <td><input type="text" name="options" value="{{ v.options }}" required></td>
+            <td><input type="datetime-local" name="end_date" value="{{ v.end_date.isoformat()[:16] }}" required></td>
+            <td style="display: flex; gap: 5px;">
+                <input type="hidden" name="vote_id" value="{{ v.id }}">
+                <button type="submit" class="btn-modifier">Modifier</button>
+        </form>
+        <form method="post" action="/admin/delete_vote" onsubmit="return confirm('Supprimer ce vote ?');">
+            <input type="hidden" name="vote_id" value="{{ v.id }}">
+            <button type="submit" class="btn-supprimer">Supprimer</button>
+        </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h2>Votes terminés</h2>
+<table class="table-vote">
+    <thead>
+    <tr>
+        <th>Question</th>
+        <th>Options</th>
+        <th>Date de fin</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for v in votes_termines %}
+    <tr>
+        <form method="post" action="/admin/update_vote">
+            <td><input type="text" name="question" value="{{ v.question }}" required></td>
+            <td><input type="text" name="options" value="{{ v.options }}" required></td>
+            <td><input type="datetime-local" name="end_date" value="{{ v.end_date.isoformat()[:16] }}" required></td>
+            <td style="display: flex; gap: 5px;">
+                <input type="hidden" name="vote_id" value="{{ v.id }}">
+                <button type="submit" class="btn-modifier">Modifier</button>
+        </form>
+        <form method="post" action="/admin/delete_vote" onsubmit="return confirm('Supprimer ce vote ?');">
+            <input type="hidden" name="vote_id" value="{{ v.id }}">
+            <button type="submit" class="btn-supprimer">Supprimer</button>
+        </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

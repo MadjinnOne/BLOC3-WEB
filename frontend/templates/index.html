@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/style_accueil.css">
+{% endblock %}
+
+{% block content %}
+<div class="accueil-container">
+    {% if user_prenom %}
+    <p style="text-align: center; font-weight: bold; font-size: 1.2em;">
+        Bonjour {{ user_prenom }} !
+    </p>
+    {% endif %}
+
+    <section class="accueil-intro">
+        <h1>Des parents engagés pour une école vivante et exigente</h1>
+        <p class="intro-texte">
+            L’Association des parents soutient activement la vie scolaire en organisant des activités conviviales et en participant aux projets pédagogiques.
+        </p>
+        <p class="intro-texte">
+            Elle crée un lien fort entre les familles, les enseignants et la commune, dans un esprit de collaboration et d'entraide.
+        </p>
+        <p class="intro-texte">
+            Ensemble, nous contribuons à offrir aux enfants un environnement scolaire épanouissant, chaleureux et dynamique.
+        </p>
+    </section>
+
+    <section class="accueil-association">
+        <h2>Notre association</h2>
+        <p>
+            L’Association des Parents est un collectif de mamans et papas bénévoles qui s’impliquent activement dans la vie de l’école.
+            Elle soutient les initiatives pédagogiques, organise des événements festifs, et renforce le dialogue entre les familles et l’équipe éducative.
+        </p>
+    </section>
+
+    <section class="accueil-objectifs">
+        <h2>Nos objectifs</h2>
+        <ul>
+            <li>Encourager les enseignants à se surpasser dans leur engagement et à inspirer l'excellence chez leurs élèves.</li>
+            <li>Prévenir toute influence idéologique inappropriée, telle que des interventions ou activités contraires aux valeurs éducatives traditionnelles.</li>
+            <li>Garantir une discipline rigoureuse en soutenant le personnel enseignant dans l'application de règles strictes.</li>
+        </ul>
+    </section>
+
+    <section class="accueil-evenements">
+        <h2>Événements à venir</h2>
+        {% if evenements %}
+        <ul class="liste-evenements">
+            {% for event in evenements %}
+            <li>
+                <strong>{{ event.titre }}</strong> —
+                <em>{{ event.date.strftime('%d/%m/%Y') }}</em>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Aucun événement à venir pour le moment.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}L'association{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/style_association.css">
+<link rel="stylesheet" href="/static/css/style_vote.css">
+{% endblock %}
+
+{% block content %}
+<section class="le-projet">
+    <h1>L'esprit du projet</h1>
+    <p>
+        L'association de l'école d'Avernas-le-Baudouin s'engage à promouvoir une éducation d'excellence fondée sur des valeurs fondamentales : discipline, effort et respect.
+    </p>
+    <p>
+        Nous encourageons les enseignants à se surpasser dans leur engagement pédagogique, en adoptant une approche exigeante qui inspire les élèves à viser l'excellence.
+    </p>
+    <p>
+        L'association s'assure également que l'école reste un espace préservé de toute influence idéologique inappropriée.
+    </p>
+    <p>
+        Enfin, nous plaidons pour une discipline rigoureuse au sein de l'établissement.
+    </p>
+</section>
+
+{% if request.query_params.get("message") == "success" %}
+<div class="vote-flash-success">
+    <span class="vote-check">✅</span>
+    Merci, votre vote a bien été enregistré !
+</div>
+{% elif request.query_params.get("message") == "already_voted" %}
+<div class="vote-flash-success">
+    <span class="vote-check">⚠️</span>
+    Vous avez déjà voté pour cette proposition.
+</div>
+{% endif %}
+
+<section class="votes-wrapper">
+    <h2 class="votes-title"><span>🗳️</span> Votes</h2>
+
+    {% if votes_en_cours %}
+        <h3 class="votes-subtitle votes-encours-title">Votes en cours</h3>
+        <div class="votes-grid">
+            {% for vote in votes_en_cours %}
+            <div class="vote-card" data-end="{{ vote.end_date.strftime('%Y-%m-%dT%H:%M:%S') }}" id="vote-{{ vote.id }}">
+                <h3 class="vote-title">{{ vote.question }}</h3>
+                {% set info = votes_info[vote.id] %}
+                {% set total = info.total %}
+                <div class="countdown" id="countdown-{{ vote.id }}">Temps restant : ...</div>
+                {% if not has_voted[vote.id] %}
+                <div class="vote-invite">
+                    <span>🗳️</span> Sélectionnez une option et cliquez sur “Voter” pour participer.
+                </div>
+                <form method="POST" action="/votes/{{ vote.id }}">
+                    {% for opt in info.options %}
+                    <label><input type="radio" name="option" value="{{ opt }}"> {{ opt }}</label><br>
+                    {% endfor %}
+                    <button>Voter</button>
+                </form>
+                {% else %}
+                <div class="vote-feedback">
+                    <span class="vote-check-icon">✔️</span>
+                    <span>Merci, votre vote a été pris en compte. Voici les résultats :</span>
+                </div>
+                <div class="vote-results-list">
+                    {% for opt in info.options %}
+                    <div class="vote-result-row">
+                        <span class="vote-option-label">{{ opt }}</span>
+                        <div class="vote-bar-container">
+                            <div class="vote-bar" style="width: {{ (100 * info.results[opt] / (total if total else 1))|round(1) }}%"></div>
+                        </div>
+                        <span class="vote-percent">{{ (100 * info.results[opt] / (total if total else 1))|round(1) }}%</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="vote-total"><strong>Total votes :</strong> {{ total }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if votes_termines %}
+        <h3 class="votes-subtitle votes-termines-title">Votes terminés</h3>
+        <div class="votes-grid votes-grid-terminees">
+            {% for vote in votes_termines %}
+            <div class="vote-card vote-terminee" id="vote-{{ vote.id }}">
+                <h3 class="vote-title">{{ vote.question }}</h3>
+                {% set info = votes_info[vote.id] %}
+                {% set total = info.total %}
+                <div class="vote-feedback">
+                    <span class="vote-check-icon">🔒</span>
+                    <span>Vote terminé. Résultats finaux :</span>
+                </div>
+                <div class="vote-results-list">
+                    {% for opt in info.options %}
+                    <div class="vote-result-row">
+                        <span class="vote-option-label">{{ opt }}</span>
+                        <div class="vote-bar-container">
+                            <div class="vote-bar" style="width: {{ (100 * info.results[opt] / (total if total else 1))|round(1) }}%"></div>
+                        </div>
+                        <span class="vote-percent">{{ (100 * info.results[opt] / (total if total else 1))|round(1) }}%</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="vote-total"><strong>Total votes :</strong> {{ total }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</section>
+
+<script src="/static/js/countdown.js"></script>
+{% if request.query_params.get("voted_id") %}
+<script>
+    window.addEventListener("DOMContentLoaded", function() {
+        const id = "{{ request.query_params.get('voted_id') }}";
+        if (id) {
+            const elt = document.getElementById("vote-" + id);
+            if (elt) {
+                elt.scrollIntoView({behavior: "smooth", block: "center"});
+            }
+        }
+    });
+</script>
+{% endif %}
+{% endblock %}

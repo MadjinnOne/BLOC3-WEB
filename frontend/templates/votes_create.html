@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Créer un nouveau vote</h2>
+
+<form method="POST" action="admin/votes/create">
+    <label>Question du vote :</label><br>
+    <input type="text" name="question" required><br><br>
+
+    <label>Options (séparées par des virgules) :</label><br>
+    <input type="text" name="options" placeholder="ex: Oui,Non,Ne se prononce pas" required><br><br>
+
+    <label>Date de fin :</label><br>
+    <input type="datetime-local" name="end_date" required><br><br>
+
+    <button type="submit">Créer le vote</button>
+</form>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Forum{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/style_forum.css">
+{% endblock %}
+
+
+{% block content %}
+<div class="forum-container">
+    {% if request.query_params.get("message") == "postdeleted" %}
+    <div class="forum-flash-success">
+        Sujet supprimé avec succès.
+    </div>
+    {% endif %}
+    {% if request.query_params.get("message") == "notempty" %}
+    <div class="forum-flash-error">
+        Impossible de supprimer la catégorie : elle contient encore des sujets.
+    </div>
+    {% elif request.query_params.get("message") == "notfound" %}
+    <div class="forum-flash-error">
+        Catégorie introuvable.
+    </div>
+    {% elif request.query_params.get("message") == "deleted" %}
+    <div class="forum-flash-success">
+        Catégorie supprimée avec succès.
+    </div>
+    {% endif %}
+    <div class="forum-header">
+        <h1>Forum</h1>
+        <div class="forum-header-actions">
+            {% if user_prenom %}
+            <a href="/forum/nouveau" class="forum-btn">➕ Nouveau sujet</a>
+            {% else %}
+            <a href="/identification" class="forum-btn forum-btn-login">
+                🔒 Connectez-vous pour poster
+            </a>
+            {% endif %}
+        </div>
+        {% if request.query_params.get("message") == "exists" %}
+        <div class="forum-flash-error">
+            Cette catégorie existe déjà.
+        </div>
+        {% endif %}
+    </div>
+    {% if is_admin %}
+    <div class="forum-admin-panel forum-admin-panel-top">
+        <h2>Administration forum</h2>
+        <form method="post" action="/forum/category/create" class="admin-category-form">
+            <input type="text" name="name" placeholder="Nouvelle catégorie..." required>
+            <button type="submit">Créer la catégorie</button>
+        </form>
+        <hr>
+        <form method="post" action="/forum/category/delete" class="admin-category-form">
+            <select name="category_id" required>
+                <option value="" disabled selected>Supprimer une catégorie</option>
+                {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="forum-delete-btn">Supprimer</button>
+        </form>
+    </div>
+
+    {% endif %}
+
+    <div class="forum-main-layout">
+        <div class="forum-main-left">
+            <!-- Liste des sujets regroupés par catégorie en accordéon -->
+            <div class="forum-post-list">
+
+                {% for category in categories %}
+                <div class="forum-accordion-category">
+                    <button class="forum-category-title accordion-toggle" type="button">
+                        {{ category.name }}
+                        <span class="accordion-icon" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="forum-category-posts accordion-content">
+                        {% set cat_posts = posts_by_category[category] %}
+                        {% if cat_posts %}
+                        {% for post in cat_posts %}
+                        <div class="forum-post-item">
+                            <h3>
+                                <a href="/forum/{{ post.id }}">{{ post.title }}</a>
+                            </h3>
+                            <div class="forum-post-content">
+                                {{ post.content[:120] }}{% if post.content|length > 120 %}...{% endif %}
+                            </div>
+                            <div class="forum-meta">
+                                <span class="forum-meta-cat">
+                                    Catégorie : {{ post.category.name if post.category else 'Sans catégorie' }}
+                                </span>
+                                <div class="forum-meta-author">
+                                    Par {{ post.author.first_name }} {{ post.author.last_name }} Le {{ post.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <em>Aucun sujet dans cette catégorie.</em>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% if posts_by_category[None] %}
+                <div class="forum-accordion-category">
+                    <button class="forum-category-title accordion-toggle" type="button">
+                        Sans catégorie
+                        <span class="accordion-icon" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="forum-category-posts accordion-content">
+                        {% for post in posts_by_category[None] %}
+                        <div class="forum-post-item">
+                            <h3>
+                                <a href="/forum/{{ post.id }}">{{ post.title }}</a>
+                            </h3>
+                            <div class="forum-post-content">
+                                {{ post.content[:120] }}{% if post.content|length > 120 %}...{% endif %}
+                            </div>
+                            <div class="forum-meta">
+                                <span class="forum-meta-cat">
+                                    Catégorie : {{ post.category.name if post.category else 'Sans catégorie' }}
+                                </span>
+                                <div class="forum-meta-author">
+                                    Par {{ post.author.first_name }} {{ post.author.last_name }} Le {{ post.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="/static/js/forum_accordion.js"></script>
+{% endblock %}

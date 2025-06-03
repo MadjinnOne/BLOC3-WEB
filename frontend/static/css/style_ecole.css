@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #e6f4f1;
+    color: #2d3a53;
+}
+
+.ecole-container {
+    max-width: 950px;
+    margin: 2rem auto;
+    background: #f8fafd;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(30,40,80,0.09);
+    padding: 1.5rem 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    overflow: hidden;
+}
+
+.ecole-intro, .ecole-sections, .ecole-infos {
+    margin-bottom: 0.8em;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(30,40,80,0.07);
+    padding: 1.3rem 1.4rem;
+    transition: box-shadow 0.2s, border-left 0.2s;
+    border-left: 6px solid transparent;
+}
+
+.ecole-intro:hover,
+.ecole-sections:hover,
+.ecole-infos:hover {
+    box-shadow: 0 6px 24px rgba(26, 188, 156, 0.10);
+    border-left: 6px solid #1abc9c;
+}
+
+.ecole-intro h1 {
+    font-size: 2em;
+    margin: 0.3em 0 0.6em 0;
+    color: #2d3a53;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.ecole-intro p,
+.ecole-sections p,
+.ecole-infos li {
+    font-size: 1.12em;
+    line-height: 1.7;
+    color: #3d4b5b;
+    margin-bottom: 0.4em;
+    text-align: justify;
+}
+
+.ecole-sections h2,
+.ecole-infos h2 {
+    font-size: 1.3em;
+    color: #209193;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 0;
+    letter-spacing: -0.5px;
+}
+
+.ecole-infos ul {
+    padding-left: 24px;
+    margin-bottom: 0.4em;
+    list-style-type: none;
+}
+
+.ecole-infos li {
+    position: relative;
+    padding-left: 1em;
+}
+
+.ecole-infos li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #1abc9c;
+    font-size: 1.1em;
+    top: 0.1em;
+}
+
+/* image école */
+.image-ecole {
+    display: block;
+    margin: 24px auto 10px auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(30,40,80,0.13);
+    border: 3px solid #e6f4f1;
+    transition: box-shadow 0.2s, border 0.2s;
+}
+
+.image-ecole:hover {
+    box-shadow: 0 8px 32px rgba(26,188,156,0.13);
+    border: 3px solid #1abc9c;
+}
+
+@media (max-width: 650px) {
+    .ecole-container {
+        padding: 0.7rem 0.5rem;
+    }
+    .ecole-intro, .ecole-sections, .ecole-infos {
+        padding: 0.85rem 0.8rem;
+    }
+    .ecole-intro h1 {
+        font-size: 1.28em;
+    }
+}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Administration{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/style_admin.css">
+{% endblock %}
+
+{% block content %}
+<h1>Panneau d'administration</h1>
+
+<div id="admin-panel">
+    <button class="button_choice" onclick="afficherSection('utilisateurs')">Gestion Utilisateurs</button>
+    <button class="button_choice" onclick="afficherSection('evenements')">Gestion Événements</button>
+    <button class="button_choice" onclick="afficherSection('votes')">Gestion Votes</button>
+</div>
+
+<section id="contenu-admin">
+    <div id="section-utilisateurs">
+        {% include "modules/gestion_utilisateurs.html" %}
+    </div>
+
+    <div id="section-evenements" style="display: none;">
+        {% include "modules/gestion_evenements.html" %}
+    </div>
+
+    <div id="section-votes" style="display: none;">
+        <h2>Créer un vote</h2>
+        <form method="POST" action="/admin/votes/create" class="add_user" id="create-vote-form">
+            <div class="add_user_form">
+                <label for="question">Question</label>
+                <input type="text" id="question" name="question" required>
+            </div>
+            <div class="add_user_form">
+                <label for="options">Options</label>
+                <input type="text" id="options" name="options" placeholder="ex: oui,non,peut-être" required>
+            </div>
+            <div class="add_user_form">
+                <label for="end_date">Date de fin</label>
+                <input type="datetime-local" id="end_date" name="end_date" required>
+            </div>
+            <button type="submit" class="button">Créer le vote</button>
+        </form>
+        <hr>
+        {% include "modules/gestion_votes.html" %}
+    </div>
+</section>
+
+<script>
+    const tab = "{{ tab }}";
+
+    function afficherSection(section) {
+        document.getElementById("section-utilisateurs").style.display = (section === "utilisateurs") ? "block" : "none";
+        document.getElementById("section-evenements").style.display = (section === "evenements") ? "block" : "none";
+        document.getElementById("section-votes").style.display = (section === "votes") ? "block" : "none";
+    }
+
+    afficherSection(tab);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Création vote
+        const form = document.getElementById('create-vote-form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const dateInput = form.querySelector('input[name="end_date"]');
+                if(dateInput && dateInput.value) {
+                    const localDate = new Date(dateInput.value);
+                    const utcIso = localDate.toISOString().slice(0, 16);
+                    dateInput.value = utcIso;
+                }
+            });
+        }
+    // Update vote (pour tous les formulaires d’édition)
+    document.querySelectorAll('form[action="/admin/update_vote"]').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            const dateInput = form.querySelector('input[name="end_date"]');
+            if(dateInput && dateInput.value) {
+                const localDate = new Date(dateInput.value);
+                const utcIso = localDate.toISOString().slice(0, 16);
+                dateInput.value = utcIso;
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

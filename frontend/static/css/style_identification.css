@@ -1,0 +1,113 @@
+.identification-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #1a237e;
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a237e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #3949ab;
+}
+
+.message.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #81c784;
+    padding: 10px;
+    margin: 10px auto;
+    max-width: 500px;
+    border-radius: 6px;
+}
+
+.message.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef5350;
+    padding: 10px;
+    margin: 10px auto;
+    max-width: 500px;
+    border-radius: 6px;
+}
+
+.toggle-form {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.toggle-form a {
+    color: #1a237e;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.toggle-form a:hover {
+    text-decoration: underline;
+}
+
+
+h1 {
+    text-align: center !important;
+}
+
+.form-container {
+    margin: 0 auto;              /* centrer horizontalement */
+    max-width: 400px;            /* ou ajuste à ta convenance */
+    background-color: #f4f4f4;   /* facultatif : couleur douce */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.identification-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+

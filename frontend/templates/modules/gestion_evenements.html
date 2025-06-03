@@ -1,0 +1,70 @@
+<h2>Créer un nouvel événement</h2>
+<form method="post" action="/admin/evenement/create" class="add_user">
+    <div class="add_user_form">
+        <label for="titre">Titre :</label>
+        <input type="text" id="titre" name="titre" required>
+    </div>
+    <div class="add_user_form">
+        <label for="date">Date :</label>
+        <input type="date" id="date" name="date" required>
+    </div>
+    <button type="submit" class="button">Créer</button>
+</form>
+
+<h2>Événements à venir</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Titre</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for evt in evenements_avenir %}
+    <tr>
+        <form method="post" action="/admin/evenement/update">
+            <td><input type="text" name="titre" value="{{ evt.titre }}" required></td>
+            <td><input type="date" name="date" value="{{ evt.date }}" required></td>
+            <td>
+                <input type="hidden" name="evenement_id" value="{{ evt.id }}">
+                <button type="submit" class="btn-modifier">Modifier</button>
+        </form>
+        <form method="post" action="/admin/evenement/delete" style="display:inline;" onsubmit="return confirm('Supprimer cet événement ?');">
+            <input type="hidden" name="evenement_id" value="{{ evt.id }}">
+            <button type="submit" class="btn-supprimer">Supprimer</button>
+        </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h2>Événements passés</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Titre</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for evt in evenements_passes %}
+    <tr>
+        <form method="post" action="/admin/evenement/update">
+            <td><input type="text" name="titre" value="{{ evt.titre }}" required></td>
+            <td><input type="date" name="date" value="{{ evt.date }}" required></td>
+            <td>
+                <input type="hidden" name="evenement_id" value="{{ evt.id }}">
+                <button type="submit" class="btn-modifier">Modifier</button>
+        </form>
+        <form method="post" action="/admin/evenement/delete" style="display:inline;" onsubmit="return confirm('Supprimer cet événement ?');">
+            <input type="hidden" name="evenement_id" value="{{ evt.id }}">
+            <button type="submit" class="btn-supprimer">Supprimer</button>
+        </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

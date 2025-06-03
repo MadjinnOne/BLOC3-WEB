@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Sujet : {{ post.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/style_forum.css">
+{% endblock %}
+
+{% block content %}
+<div class="forum-post-detail">
+    <div class="forum-post-item">
+        <h1>{{ post.title }}</h1>
+        <div class="forum-post-content">
+            {{ post.content | replace('\n', '<br>') | safe }}
+        </div>
+        <div class="forum-post-actions">
+            {% if is_admin or user_id == post.author_id %}
+            <form method="get" action="/forum/posts/{{ post.id }}/edit" style="display:inline;">
+                <button type="submit" class="forum-edit-btn">✏️ Éditer</button>
+            </form>
+            <form method="post" action="/forum/posts/{{ post.id }}/delete" style="display:inline;">
+                <button type="submit" class="forum-delete-btn" onclick="return confirm('Supprimer ce sujet ?')">🗑️ Supprimer</button>
+            </form>
+            {% endif %}
+        </div>
+        <div class="forum-meta">
+            <span class="forum-meta-cat">Catégorie : {{ post.category.name if post.category else 'Sans catégorie' }}</span>
+            <div class="forum-meta-author">
+                Par {{ post.author.first_name }} {{ post.author.last_name }} Le {{ post.created_at.strftime('%d/%m/%Y %H:%M') }}
+            </div>
+        </div>
+    </div>
+</div>
+
+    <h2>Réponses</h2>
+<div class="forum-replies">
+    {% if replies %}
+    {% for reply in replies %}
+    <div class="forum-post-item">
+        <div class="forum-post-content">
+            {{ reply.content }}
+        </div>
+        <div class="forum-post-actions">
+            {% if is_admin or user_id == reply.author_id %}
+            <form method="get" action="/forum/reply/{{ reply.id }}/edit" style="display:inline;">
+                <button type="submit" class="forum-edit-btn">✏️ Éditer</button>
+            </form>
+            <form method="post" action="/forum/reply/{{ reply.id }}/delete" style="display:inline;">
+                <button type="submit" class="forum-delete-btn" onclick="return confirm('Supprimer cette réponse ?')">🗑️ Supprimer</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <div class="forum-meta">
+        <span class="forum-meta-cat">
+            Catégorie : {{ post.category.name if post.category else 'Sans catégorie' }}
+        </span>
+            <div class="forum-meta-author">
+                Par {{ reply.author.first_name }} {{ reply.author.last_name }} Le {{ reply.created_at.strftime('%d/%m/%Y %H:%M') }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Aucune réponse pour l’instant.</p>
+    {% endif %}
+</div>
+
+<!-- Formulaire de réponse -->
+{% if user_prenom %}
+<div class="forum-reply-form">
+    <h3>Répondre à ce sujet</h3>
+    <form method="post" action="/forum/{{ post.id }}/reply">
+        <textarea name="content" rows="3" placeholder="Votre réponse..." required></textarea>
+        <button type="submit">Publier la réponse</button>
+    </form>
+</div>
+{% else %}
+<div class="forum-reply-info" style="text-align:center; margin-top:2em;">
+    <a href="/identification" class="forum-btn forum-btn-login">
+        🔒 Connectez-vous pour répondre à ce sujet
+    </a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+/* Assurer que toute la page prend la hauteur de l'écran */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+/* Contenu principal centré et avec marges */
+.main-content {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px 20px;
+    box-sizing: border-box;
+    background: #2eb0b0;
+    min-height: 40%;
+    border-radius: 10px;
+}
+
+
+
+
+
